@@ -1,0 +1,9 @@
+http
+https
+ftp
+tcp
+udp
+rtp
+srt
+://
+.sh

@@ -1,0 +1,152 @@
+{% extends 'default/layout_enhanced.html' %}
+
+
+{% block title %}
+<title>File Sharing</title>
+{% endblock %}
+
+
+{% block pre-head %}
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+<!-- MDB -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet"/>
+{% endblock %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block navbar %}
+<br>
+<li class="nav-item active">
+    <a class="nav-link" href="create/">Upload New</a>
+</li>
+{% endblock %}
+
+
+
+{% block content %}
+
+<!-- File content Table -->
+<table class="table table-hover vh-min-100">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Title</th>
+        <th scope="col">By</th>
+        <th scope="col">File Size</th>
+        <th scope="col">Expire At</th>
+    </tr>
+    </thead>
+    <tbody id="main-indexes">
+    {% for obj in objs %}
+        <tr onclick="document.getElementById('button_for_{{obj.id}}').click()">
+            <th scope="row">
+                {{obj.id}}
+            </th>
+            <td class="text-info" 
+                style="max-width: 20vw; 
+                        overflow: hidden; text-overflow: ellipsis;">
+                {{obj.title}}
+            </td>
+            <td class="text-secondary text-truncate" 
+                style="max-width: 16vw; 
+                        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{obj.posted_by}}
+            </td>
+            <td class="text-dark">
+                {{obj.filesize|filesizeformat}}
+            </td>
+            <td class="text-dark" 
+                style="max-width: 16vw; 
+                        overflow: hidden; text-overflow: ellipsis;">
+                {{obj.expire_at}}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<!-- OnclickTable triggered Password Modal -->
+{% for obj in objs %}
+{% if not obj.password %}
+<form method="POST" action="/details/" hidden>
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="text" class="form-control" name="id" value="{{obj.id}}">
+    </div>
+    <button id="button_for_{{obj.id}}" type="submit">Submit</button>
+</form>
+{% else %}
+<button id="button_for_{{obj.id}}" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#passwordModal_{{obj.id}}" data-whatever="{{obj.title}}" hidden></button>
+
+<div class="modal fade" id="passwordModal_{{obj.id}}" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel_{{obj.id}}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel_{{obj.id}}">Password for {{obj.title}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/details/">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="id" value="{{obj.id}}" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% if alert == status.Success %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{alert}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% elif alert != status.Init %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{alert}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% if info %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    <strong>{{info}}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block foot %}
+<script type="text/javascript">
+    function mobileView() {
+        const mainIndexes = document.getElementById("main-indexes");
+        mainIndexes.style.fontSize = "60%";
+    }
+    if (screen.width <= 480) {
+        mobileView();
+    }
+</script>
+{% endblock %}
