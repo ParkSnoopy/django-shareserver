@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.views import LogoutView
 from django.conf import settings
 
 from localutils.password_validator import validate_password
@@ -62,4 +61,6 @@ def customauth_login(request):
         'fail_reason': None,
     })
 
-customauth_logout = LogoutView.as_view(next_page=settings.LOGOUT_REDIRECT_URL)
+def customauth_logout(request):
+    logout(request)
+    return redirect(settings.LOGOUT_REDIRECT_URL)
