@@ -10,6 +10,8 @@ if not os.path.exists(".logs"):
 bind    = "127.0.0.1:8200"
 reload  = True
 
+# Currently, File access permission is stored as object attribute, not DB. 
+# so if there are more than one worker, file access timer won't work consistently. 
 workers = 1
 # worker_class = "uvicorn.workers.UvicornWorker"
 
