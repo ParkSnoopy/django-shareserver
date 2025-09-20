@@ -5,7 +5,7 @@ from django.conf import settings
 
 from .celery import app
 
-from lightfileShare.models import SecretFile
+from lightfileshare.models import SecretFile
 
 import django; django.setup()
 

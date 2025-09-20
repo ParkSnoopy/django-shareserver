@@ -22,6 +22,6 @@ urlpatterns = [
     path('customauth/', include('customauth.urls')),
     path('globalfiles/', include('globalfiles.urls')), 
     
-    path('', include('lightfileShare.urls')), 
+    path('', include('lightfileshare.urls')), 
 
 ]

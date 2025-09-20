@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'globalfiles',
 
     'customauth',
-    'lightfileShare',
+    'lightfileshare',
 
     # DEP REQ
     'whitenoise',

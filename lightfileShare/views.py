@@ -28,7 +28,7 @@ def lightfileshare_home(request):
     if request.user.is_authenticated:
         private_level = request.user.private_level
 
-    return render(request, 'lightfileShare/index.html', {
+    return render(request, 'lightfileshare/index.html', {
         'objs': SecretFile.objects.filter(private_level__lte=private_level).order_by("id"), #.values('id', 'title', 'posted_by', 'expire_at', 'password', 'content'),
         'alert': DetailStatus.parse( request.GET.get('fail') ),
         'info': request.GET.get('info'),

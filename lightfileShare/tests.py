@@ -3,7 +3,7 @@ from django.test import TestCase, Client
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from lightfileShare.models import SecretFile
+from lightfileshare.models import SecretFile
 from localutils.private_level import PrivateLevel
 from localutils.permission_handler import FilePermissionHandler
 
