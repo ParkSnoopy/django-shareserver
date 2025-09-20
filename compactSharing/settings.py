@@ -28,10 +28,12 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 
 
-CUSTOM_URL = [ url for url in (
-    os.environ.get("URL_main"),
-    os.environ.get("URL_backup"),
-) if url ]
+CUSTOM_URL = list(filter(lambda url: url is not None and len(url) > 0, 
+    [
+        os.environ.get("URL_main"),
+        os.environ.get("URL_backup"),
+    ]
+))
 
 ALLOWED_HOSTS = [
     *CUSTOM_URL
@@ -98,7 +100,7 @@ WSGI_APPLICATION = 'compactSharing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
+if os.environ["USE_SQLITE"]:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -113,7 +115,7 @@ else:
             'NAME': os.environ["DB_NAME"],
             'USER': os.environ["DB_USER"],
             'PASSWORD': os.environ["DB_PASS"],
-            'HOST': os.environ.get("DB_HOST", "localhost"),
+            'HOST': os.environ.get("DB_HOST", "127.0.0.1"),
             'PORT': os.environ.get("DB_PORT", ""),
         }
     }
