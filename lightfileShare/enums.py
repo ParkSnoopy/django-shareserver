@@ -6,9 +6,10 @@ class DetailStatus:
 	Init = 0
 	Success = "File download has started"
 	FailNoPassword = "Please provide any password"
-	FailPassword = "Password Mismatch"
-	FailNoFile = "No File Correspond"
-	FailWrongMethod = "Only Post method is alloyed to visit this site"
+	FailPassword = "Password Mismatched"
+	FailNoFileDownload = "No File Correspond to your request"
+	FailNoFileUpload = "No File selected"
+	FailWrongMethod = "Only Post method is allowed to visit this site"
 	FailNoPermission = "You have no permission to access this file"
 	FailUnsafeFilename = "Given filename is considered an important system file"
 
@@ -17,7 +18,8 @@ class DetailStatus:
 		Success,
 		FailNoPassword,
 		FailPassword,
-		FailNoFile,
+		FailNoFileDownload,
+		FailNoFileUpload,
 		FailWrongMethod,
 		FailNoPermission,
 		FailUnsafeFilename,

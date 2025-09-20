@@ -13,7 +13,6 @@ from .enums import DetailStatus
 
 import json
 
-# APH = settings.MY_ACCESS_PERMISSION_HANDLER
 FPH = settings.MY_FILE_PERMISSION_HANDLER
 
 # Create your views here.
@@ -71,10 +70,26 @@ def lightfileshare_details(request):
                     return redirect(settings.LIGHTFILE_LOAD_URL + filename) # FileResponse( open( filepath, 'rb' ) )
 
             except SecretFile.DoesNotExist:
-                return redirect(f'/?fail={DetailStatus.FailNoFile}')
+                return redirect(f'/?fail={DetailStatus.FailNoFileDownload}')
 
     return redirect(f'/?fail={DetailStatus.FailWrongMethod}')
 
+
+# ** IMPORTANT **
+# `create` page has its own response handler with AJAX. 
+# This page is designed to recieve a JSON response. 
+# If any other response (e.g. `return redirect('/')`) is sent, 
+#   this page considers full HTML page as JSON file and 
+#   fails to parse it into JSON Object. 
+#
+# Also, to show `alert` box for failed request, 
+#   you have to use `DetailStatus` in `enums.py`. 
+# Because `/` index page is filtering fail message by 
+#   `DetailStatus` Class
+#
+# To add a custom error type, 
+#   add a status on `DetailStatus` and 
+#   register to `DetailStatus._ALL_STATUS` tuple. 
 
 def lightfileshare_create(request):
     if request.method == 'POST' and request.FILES:
@@ -84,29 +99,9 @@ def lightfileshare_create(request):
         password = request.POST.get('password')
         title = request.POST.get('title') or content.name
 
-        filename, unsafe_word = safe_global_filename(filename=str(content.name))
-
-        if not filename:
-            return JsonResponse(
-                {
-                    'success': False,
-                    'message': f"filename '{content.name}' is considered an important system file",
-                },
-                status=406,
-            )
-            '''
-            return render(
-                request,
-                'lightfileShare/failure.html',
-                {
-                    'redirect': 'create',
-                    'fail_reason': f"filename '{content.name}' is considered an important system file",
-                    'fail_explain': f"please consider replace '{unsafe_word}' to other common word",
-                }
-            )
-            '''
-
-        # print(f"CREATE: {request.POST=}")
+        # Filter unsafe filename segments defined in `localutils/unsafes/*`
+        if safe_global_filename(filename=str(content.name)):
+            return JsonResponse({'message': DetailStatus.FailUnsafeFilename}, status=406)
 
         if title and content:
             # If user is logged in, set file private level to user's private level
@@ -123,5 +118,9 @@ def lightfileshare_create(request):
             )
             return JsonResponse({'success': True}, status=200)
             # return HttpResponse(json.dumps({'success': True}), content_type='application/json', status=200) # redirect('/')
-        return JsonResponse({'message': "no file uploaded"}, status=400)
-    return render(request, 'lightfileShare/create.html')
+        return JsonResponse({'message': DetailStatus.FailNoFileUpload}, status=406)
+
+    elif request.method == 'POST' and not request.FILES:
+        return JsonResponse({'message': DetailStatus.FailNoFileUpload}, status=406)
+
+    return render(request, 'lightfileshare/create.html')
