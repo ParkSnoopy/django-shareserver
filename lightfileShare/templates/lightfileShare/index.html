@@ -1,36 +1,7 @@
-{% extends 'default/layout_enhanced.html' %}
-
-
-{% block title %}
-<title>File Sharing</title>
-{% endblock %}
-
-
-{% block pre-head %}
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
-<!-- MDB -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet"/>
-{% endblock %}
-
-
-{% block head %}
-{% endblock %}
-
-
-{% block navbar %}
-<br>
-<li class="nav-item active">
-    <a class="nav-link" href="create/">Upload New</a>
-</li>
-{% endblock %}
-
+{% extends 'lightfileshare/lightfileshare.html' %}
 
 
 {% block content %}
-
 <!-- File content Table -->
 <table class="table table-hover vh-min-100">
     <thead class="thead-dark">
@@ -114,26 +85,32 @@
 {% endif %}
 {% endfor %}
 {% if alert == status.Success %}
-<div class="alert alert-success alert-dismissible fade show" role="alert">
+<div class="d-flex justify-content-center">
+  <div class="alert alert-success alert-dismissible fade show w-auto" role="alert">
     <strong>{{alert}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+  </div>
 </div>
 {% elif alert != status.Init %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
+<div class="d-flex justify-content-center">
+  <div class="alert alert-danger alert-dismissible fade show w-auto" role="alert">
     <strong>{{alert}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+  </div>
 </div>
 {% endif %}
 {% if info %}
-<div class="alert alert-info alert-dismissible fade show" role="alert">
+<div class="d-flex justify-content-center">
+  <div class="alert alert-info alert-dismissible fade show w-auto" role="alert">
     <strong>{{info}}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+  </div>
 </div>
 {% endif %}
 {% endblock %}
