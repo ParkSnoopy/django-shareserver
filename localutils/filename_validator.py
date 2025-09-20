@@ -14,8 +14,8 @@ def safe_private_filename(filepath: Path) -> Path | None:
     return filepath # safe pass
 
 
-def safe_global_filename(filename) -> [str|None, None|str]:
+def safe_global_filename(filename) -> str|None:
     for unsafe in UNSAFES_USER:
-        if unsafe in filename.lower():
-            return None, unsafe # unsafe hit
-    return filename, None # safe pass
+        if unsafe == filename.split('.')[-1].strip().lower():
+            return unsafe # unsafe hit
+    return None # safe pass
