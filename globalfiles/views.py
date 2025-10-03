@@ -21,7 +21,7 @@ def static(request, appname:str, filetype:str, filename:str):
     return HttpResponse(status=403)
 
 def media_by_file_permission(request, filename:str):
-    if not FPH.check_permission(request, filename, _debug=True):
+    if not FPH.check_permission(request, filename, _debug=settings.DEBUG):
         return HttpResponse(status=403)
 
     rootpath = settings.MEDIA_ROOT / settings.LIGHTFILE_SAVE_DIR
