@@ -33,13 +33,18 @@ CUSTOM_URL  = list(
         os.environ.get("URLs").split(';')
     ))
 )
-RAILWAY_URL = os.environ.get("RAILWAY_PUBLIC_URL")
+RAILWAY_URL = list(
+    filter(lambda u: len(u) > 0,
+    map   (lambda u: u.strip(),
+        os.environ.get("RAILWAY_PUBLIC_URL").split(';')
+    ))
+)
 
 ALLOWED_HOSTS = [
     *CUSTOM_URL
 ]
 if RAILWAY_URL is not None:
-    ALLOWED_HOSTS.append( RAILWAY_URL )
+    ALLOWED_HOSTS.extend( RAILWAY_URL )
 
 
 
