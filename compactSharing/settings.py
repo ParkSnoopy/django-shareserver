@@ -30,13 +30,13 @@ DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 CUSTOM_URL  = list(
     filter(lambda u: len(u) > 0,
     map   (lambda u: u.strip(),
-        os.environ.get("URLs").split(';')
+        os.environ.get("URLs", "").split(';')
     ))
 )
 RAILWAY_URL = list(
     filter(lambda u: len(u) > 0,
     map   (lambda u: u.strip(),
-        os.environ.get("RAILWAY_PUBLIC_URL").split(';')
+        os.environ.get("RAILWAY_PUBLIC_URL", "").split(';')
     ))
 )
 
