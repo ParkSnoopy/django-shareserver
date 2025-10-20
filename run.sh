@@ -17,4 +17,6 @@ uv run -- granian \
   --process-name django-shareserver \
   --workers 1 \
   --blocking-threads 4 \
+  --host 0.0.0.0 \
+  --port 8000\
   compactSharing.wsgi:application
