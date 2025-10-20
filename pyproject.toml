@@ -1,12 +1,13 @@
 [project]
 name = "django-shareserver"
-version = "0.1.1"
-description = "Add your description here"
-readme = "README.md"
+version = "0.1.2"
+description = ""
+readme = ""
 requires-python = ">=3.13"
 dependencies = [
     "django>=5.2",
     "django-celery-beat>=2.8",
     "dotenv>=0.9",
+    "granian[pname]>=2.5",
     "whitenoise>=6.11",
 ]
