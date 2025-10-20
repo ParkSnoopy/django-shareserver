@@ -3,7 +3,6 @@
 # Environ init
 pushd compactSharing
 cp .env.example .env
-sed -i 's/^DEBUG =.*/#DEBUG = False/' .env
 sed -i 's/^URLs =.*/URLs = 0.0.0.0/' .env
 sed -i "s/^DJANGO_SECRET_KEY =.*/DJANGO_SECRET_KEY = $(cat \/dev\/urandom | LC_ALL=C tr -dc a-zA-Z0-9 | head -c 128)/" .env
 popd
