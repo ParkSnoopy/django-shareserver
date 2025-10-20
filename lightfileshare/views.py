@@ -95,7 +95,7 @@ def lightfileshare_create(request):
     if request.method == 'POST' and request.FILES:
         content = request.FILES['file']
 
-        posted_by = request.user.username if request.user.is_authenticated else get_ranged_ip(request, start=0, end=3, mask='#')
+        posted_by = request.user.username if request.user.is_authenticated else get_ranged_ip(request, start=0, end=4, mask='#')
         password = request.POST.get('password')
         title = request.POST.get('title') or content.name
 

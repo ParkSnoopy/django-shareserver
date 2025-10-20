@@ -27,13 +27,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == 'True' else False
 
-
-CUSTOM_URL = list(filter(lambda url: url is not None and len(url) > 0, 
-    [
-        os.environ.get("URL_main"),
-        os.environ.get("URL_backup"),
-    ]
-))
+CUSTOM_URL = os.environ.get("URLs").split(';')
 
 ALLOWED_HOSTS = [
     *CUSTOM_URL
