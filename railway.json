@@ -6,7 +6,7 @@
     },
     "deploy":
     {
-        "startCommand": "uv run -- python manage.py createsuperuser --noinput && run.sh",
+        "startCommand": "run.sh",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 3
     }
