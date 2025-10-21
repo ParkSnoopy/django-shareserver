@@ -78,7 +78,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-#always CSRF problem...    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -127,7 +127,6 @@ else:
             'PORT': os.environ.get("DB_PORT", ""),
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -185,9 +184,9 @@ SESSION_COOKIE_SECURE = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 60 * 60 # last 1 hour and expires if browser not closed
 
-CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
-CSRF_USE_SESSIONS = True
-CSRF_COOKIE_SECURE = True
+#CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
+#CSRF_USE_SESSIONS = True
+#CSRF_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = [
     protocol + domain
