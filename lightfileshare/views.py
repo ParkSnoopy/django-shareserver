@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from localutils.hasher import custom_hasher, check_password
 from localutils.filename_validator import safe_global_filename
@@ -92,7 +91,6 @@ def lightfileshare_details(request):
 #   add a status on `DetailStatus` and 
 #   register to `DetailStatus._ALL_STATUS` tuple. 
 
-@csrf_exempt
 def lightfileshare_create(request):
     if request.method == 'POST' and request.FILES:
         content = request.FILES['file']
