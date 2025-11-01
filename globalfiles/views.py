@@ -1,8 +1,10 @@
+from django.shortcuts import redirect
 from django.http import FileResponse, HttpResponse
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
 
 from localutils.private_level import PrivateLevel
+from lightfileshare.enums import DetailStatus
 
 from pathlib import Path
 
@@ -22,7 +24,8 @@ def static(request, appname:str, filetype:str, filename:str):
 
 def media_by_file_permission(request, filename:str):
     if not FPH.check_permission(request, filename, _debug=settings.DEBUG):
-        return HttpResponse(status=403)
+        # goto Index page if no file permission
+        return redirect(f'/?fail={DetailStatus.FailNoPermission}')
 
     rootpath = settings.MEDIA_ROOT / settings.LIGHTFILE_SAVE_DIR
     filepath = rootpath / filename
