@@ -16,7 +16,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    if ( len(sys.argv) >= 2 ) and ( sys.argv[1] == "runserver" ):
+    if ( len(sys.argv) >= 2 ) and ( sys.argv[1] == "collectstatic" ):
         # if `runserver`, make directory for `lightfileshare`'s media directory
         from compactSharing.settings import MEDIA_ROOT, LIGHTFILE_SAVE_DIR
         os.makedirs(
