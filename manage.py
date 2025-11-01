@@ -15,6 +15,15 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    if ( len(sys.argv) >= 2 ) and ( sys.argv[1] == "runserver" ):
+        # if `runserver`, make directory for `lightfileshare`'s media directory
+        from compactSharing.settings import MEDIA_ROOT, LIGHTFILE_SAVE_DIR
+        os.makedirs(
+            MEDIA_ROOT/LIGHTFILE_SAVE_DIR,
+            exist_ok=True,
+        )
+
     execute_from_command_line(sys.argv)
 
 
