@@ -10,7 +10,7 @@ from localutils.private_level import PrivateLevel
 # Create your models here.
 
 
-def expire_time_maker(lifetime_in_hour=settings.MY_DEFAULT_FILE_LIFETIME_IN_HOUR): # default config : last for 3 days
+def expire_time_maker(lifetime_in_hour=settings.MY_DEFAULT_FILE_LIFETIME_IN_HOUR):
     return datetime.now(tz=timezone.utc) + timedelta(hours=lifetime_in_hour)
 
 

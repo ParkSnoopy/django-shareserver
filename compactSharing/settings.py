@@ -152,7 +152,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -208,11 +208,7 @@ SALT_SEP = '::'
 
 USE_PRIFILES = True if os.environ.get('USE_PRIFILES') == 'True' else False
 
-MY_DEFAULT_FILE_LIFETIME_IN_HOUR = 12
-
-# deprecated
-# from localutils.permission_handler import PermissionHandler
-# MY_ACCESS_PERMISSION_HANDLER = PermissionHandler(permission_lifetime_in_minute=0.05) # permission only last for 3 seconds
+MY_DEFAULT_FILE_LIFETIME_IN_HOUR = 48
 
 AUTH_USER_MODEL = "customauth.CustomUser"
 
