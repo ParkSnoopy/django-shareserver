@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 # Environ init
 pushd compactSharing
 cp .env.example .env
