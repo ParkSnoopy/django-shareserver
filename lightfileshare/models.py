@@ -11,6 +11,9 @@ from localutils.private_level import PrivateLevel
 
 
 def expire_time_maker(lifetime_in_hour=settings.MY_DEFAULT_FILE_LIFETIME_IN_HOUR):
+    # If `<project>.settings.py` have set `TIME_ZONE` and `USE_TZ`,
+    # then all time will display as Local Time, even if this returns
+    # UTC time as result. 
     return datetime.now(tz=timezone.utc) + timedelta(hours=lifetime_in_hour)
 
 
