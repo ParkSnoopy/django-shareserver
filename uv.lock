@@ -166,11 +166,11 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "django", specifier = ">=5.2" },
-    { name = "django-celery-beat", specifier = ">=2.8" },
+    { name = "django", specifier = ">=5" },
+    { name = "django-celery-beat", specifier = ">=2" },
     { name = "dotenv", specifier = ">=0.9" },
-    { name = "granian", extras = ["pname"], specifier = ">=2.5" },
-    { name = "whitenoise", specifier = ">=6.11" },
+    { name = "granian", extras = ["pname"], specifier = ">=2" },
+    { name = "whitenoise" },
 ]
 
 [[package]]
