@@ -4,6 +4,8 @@ from datetime import datetime, timedelta, timezone
 
 class FilePermissionHandler:
     def __init__(self, permission_lifetime_in_minute=5):
+        # Only when single FPH is running, works stable
+        # Replace `dict` into shared DB for multithreaded runner
         self.container = dict()
         self.permission_lifetime_in_minute = permission_lifetime_in_minute
 
