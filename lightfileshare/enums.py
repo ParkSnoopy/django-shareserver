@@ -3,7 +3,7 @@
 class DetailStatus:
 	UndefinedError = -1
 
-	Init = 0
+	Init = "Uninitialized"
 	Success = "File download has started"
 	FailNoPassword = "Please provide any password"
 	FailPassword = "Password Mismatched"
