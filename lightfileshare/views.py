@@ -43,6 +43,7 @@ def lightfileshare_details(request):
             private_level = request.user.private_level
 
         pk = request.POST.get('id')
+        session_id = request.session.session_key
 
         if pk:
             try:
@@ -58,7 +59,7 @@ def lightfileshare_details(request):
 
                     if check_password( password, secretfile.password ):
 
-                        FPH.set_permission( request, filename )
+                        FPH.set_permission( session_id, filename )
                         return redirect(settings.LIGHTFILE_LOAD_URL + filename) # FileResponse( open( filepath, 'rb' ) )
 
                     # print(f"{password=} ; {secretfile.password=} ; check_password={check_password( password, secretfile.password )}")
@@ -66,7 +67,7 @@ def lightfileshare_details(request):
                     return redirect(f'/?fail={DetailStatus.FailPassword}')
 
                 else:
-                    FPH.set_permission( request, filename )
+                    FPH.set_permission( session_id, filename )
                     return redirect(settings.LIGHTFILE_LOAD_URL + filename) # FileResponse( open( filepath, 'rb' ) )
 
             except SecretFile.DoesNotExist:
