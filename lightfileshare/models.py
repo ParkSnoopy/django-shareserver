@@ -38,20 +38,24 @@ class SecretFileManager(models.Manager):
                 remove(obj.filepath)
                 obj.delete()
 
-
+class PasswordlessSecretFileManager(models.Manager):
+    def get_queryset(self):
+        # Return MUST be <public, passwordless> objects
+        return super().get_queryset().filter(private_level=PrivateLevel.Public).filter(password__isnull=True)
 
 
 class SecretFile(models.Model):
 
-    private_level = models.IntegerField(blank=True, null=False, default=PrivateLevel.Public)
-    password = models.CharField(blank=True, null=True, max_length=1024) # string salted+hashed by 'custom_hasher()'
-    title = models.CharField(blank=True, null=False, default='', max_length=100)
+    private_level = models.IntegerField(blank=False, null=False, default=PrivateLevel.Public)
+    password = models.CharField(blank=False, null=True, max_length=1024) # string salted+hashed by 'custom_hasher()'
+    title = models.CharField(blank=False, null=False, max_length=128)
     content = models.FileField(blank=False, null=False, upload_to=settings.LIGHTFILE_SAVE_DIR)
-    posted_by = models.CharField(blank=False, null=False, max_length=100)
-    expire_at = models.DateTimeField(blank=True, null=False, default=expire_time_maker)
+    posted_by = models.CharField(blank=False, null=False, max_length=128)
+    expire_at = models.DateTimeField(blank=False, null=False, default=expire_time_maker)
 
 
     objects = SecretFileManager()
+    passwordless_objects = PasswordlessSecretFileManager()
 
 
     def __repr__(self):
