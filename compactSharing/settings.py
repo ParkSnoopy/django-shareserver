@@ -206,12 +206,9 @@ FILE_UPLOAD_HANDLER = [
 SALT_BYTE = 32
 SALT_SEP = '::'
 
-USE_PRIFILES = True if os.environ.get('USE_PRIFILES') == 'True' else False
-
 MY_DEFAULT_FILE_LIFETIME_IN_HOUR = 48
 
 AUTH_USER_MODEL = "customauth.CustomUser"
 
 from localutils.permission_handler import FilePermissionHandler
 MY_FILE_PERMISSION_HANDLER = FilePermissionHandler()
-
