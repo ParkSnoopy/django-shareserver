@@ -11,5 +11,4 @@ urlpatterns = [
     path('', lightfileshare_home), 
     path('details/', lightfileshare_details), 
     path('create/', lightfileshare_create), 
-    
 ]
