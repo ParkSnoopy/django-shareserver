@@ -61,3 +61,10 @@ def _set_passwordless_file_permission(request, filename:str):
 
 def _is_subdir(root, sub):
     return root in sub.parents
+
+@user_passes_test(lambda user: user.is_active and user.is_admin)
+def media_for_admin(request, filename:str):
+    filepath = settings.MEDIA_ROOT / settings.LIGHTFILE_SAVE_DIR / filename
+    return FileResponse(
+        open( filepath , 'rb' )
+    )
