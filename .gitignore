@@ -23,6 +23,9 @@ ENV/
 env.bak/
 venv.bak/
 
-# locality
+# Locality
 .certs/
 *.sock
+
+# Causing error when outdated
+uv.lock
