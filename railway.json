@@ -6,7 +6,7 @@
     },
     "deploy":
     {
-        "startCommand": "/app/railway-run.sh",
+        "startCommand": "railway-run.sh",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 3
     }
