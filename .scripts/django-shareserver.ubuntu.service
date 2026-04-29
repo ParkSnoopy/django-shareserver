@@ -3,7 +3,7 @@ Description=A simple file sharing server powered by Python Django
 After=network.target
 
 [Service]
-ExecStart=/home/ubuntu/SERVICE/django-shareserver/scripts/user-run.sh
+ExecStart=/home/ubuntu/SERVICE/django-shareserver/.scripts/user-run.sh
 WorkingDirectory=/home/ubuntu/SERVICE/django-shareserver
 User=ubuntu
 
