@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from django.http import FileResponse, HttpResponse, JsonResponse
+from django.http import JsonResponse
+from django.urls import reverse
 
 from localutils.hasher import custom_hasher, check_password
 from localutils.filename_validator import safe_global_filename
@@ -60,7 +61,9 @@ def lightfileshare_details(request):
                     if check_password( password, secretfile.password ):
 
                         FPH.set_permission( session_id, filename )
-                        return redirect(settings.LIGHTFILE_LOAD_URL + filename) # FileResponse( open( filepath, 'rb' ) )
+                        return redirect(
+                            reverse('download', kwargs={'pk': pk})
+                        )
 
                     # print(f"{password=} ; {secretfile.password=} ; check_password={check_password( password, secretfile.password )}")
 
@@ -68,7 +71,9 @@ def lightfileshare_details(request):
 
                 else:
                     FPH.set_permission( session_id, filename )
-                    return redirect(settings.LIGHTFILE_LOAD_URL + filename) # FileResponse( open( filepath, 'rb' ) )
+                    return redirect(
+                        reverse('download', kwargs={'pk': pk})
+                    )
 
             except SecretFile.DoesNotExist:
                 return redirect(f'/?fail={DetailStatus.FailNoFileDownload}')
@@ -91,6 +96,25 @@ def lightfileshare_details(request):
 # To add a custom error type, 
 #   add a status on `DetailStatus` and 
 #   register to `DetailStatus._ALL_STATUS` tuple. 
+
+def lightfileshare_download(request, pk: int):
+    try:
+        secretfile = SecretFile.objects.get(pk=pk)
+    except SecretFile.DoesNotExist:
+        return redirect(f'/?fail={DetailStatus.FailNoFileDownload}')
+
+    session_id = request.session.session_key
+    filename = secretfile.filename
+
+    # Verify existing permission (set by lightfileshare_details)
+    if not FPH.check_permission(session_id, filename):
+        return redirect(f'/?fail={DetailStatus.FailNoPermission}')
+
+    file_url = settings.LIGHTFILE_LOAD_URL + filename
+    return render(request, 'lightfileshare/download.html', {
+        'title': secretfile.title,
+        'file_url': file_url,
+    })
 
 def lightfileshare_create(request):
     if request.method == 'POST' and request.FILES:

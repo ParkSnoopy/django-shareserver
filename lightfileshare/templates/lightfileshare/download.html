@@ -1,0 +1,36 @@
+{% extends 'lightfileshare/lightfileshare.html' %}
+
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-min-100">
+    <div class="card text-center" style="min-width: 360px; max-width: 480px;">
+        <div class="card-header bg-info text-white">
+            <h5 class="card-title mb-0">File Ready</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text text-info font-weight-bold" style="word-break: break-all;">
+                {{ title }}
+            </p>
+            <p class="card-text text-muted small">
+                <span class="mr-3">Size: {{ filesize|filesizeformat }}</span>
+                <span>By: {{ posted_by }}</span>
+            </p>
+            <hr>
+            <p class="card-text text-muted small">
+                Choose how to access this file.
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+                <a href="{{ file_url }}?disposition=open" class="btn btn-info btn-lg px-4" role="button" style="min-width: 120px;">
+                    <i class="fas fa-eye mr-2"></i> Open
+                </a>
+                <a href="{{ file_url }}?disposition=download" class="btn btn-success btn-lg px-4" role="button" style="min-width: 120px;">
+                    <i class="fas fa-download mr-2"></i> Download
+                </a>
+            </div>
+        </div>
+        <div class="card-footer text-muted small">
+            <a href="/" class="text-secondary"><i class="fas fa-arrow-left mr-1"></i> Back to list</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

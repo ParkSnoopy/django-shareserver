@@ -39,9 +39,12 @@ def media_by_file_permission(request, filename:str):
     filepath = rootpath / filename
 
     if _is_subdir(rootpath, filepath):
-        return FileResponse(
+        response = FileResponse(
             open( filepath , 'rb' )
         )
+        if request.GET.get('disposition') == 'download':
+            response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
     return HttpResponse(status=403)
 
 def _set_passwordless_file_permission(request, filename:str):
