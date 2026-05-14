@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'compactSharing.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "compactSharing.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -16,16 +17,17 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
 
-    if ( len(sys.argv) >= 2 ) and ( sys.argv[1] == "collectstatic" ):
+    if (len(sys.argv) >= 2) and (sys.argv[1] == "collectstatic"):
         # if `runserver`, make directory for `lightfileshare`'s media directory
         from compactSharing.settings import MEDIA_ROOT, LIGHTFILE_SAVE_DIR
+
         os.makedirs(
-            MEDIA_ROOT/LIGHTFILE_SAVE_DIR,
+            MEDIA_ROOT / LIGHTFILE_SAVE_DIR,
             exist_ok=True,
         )
 
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

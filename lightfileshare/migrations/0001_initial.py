@@ -5,23 +5,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='SecretFile',
+            name="SecretFile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('private_level', models.IntegerField(blank=True, default=0)),
-                ('password', models.CharField(blank=True, max_length=1024, null=True)),
-                ('title', models.CharField(blank=True, default='', max_length=100)),
-                ('content', models.FileField(upload_to='lightfile/shared/')),
-                ('posted_by', models.CharField(max_length=100)),
-                ('expire_at', models.DateTimeField(blank=True, default=lightfileshare.models.expire_time_maker)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("private_level", models.IntegerField(blank=True, default=0)),
+                ("password", models.CharField(blank=True, max_length=1024, null=True)),
+                ("title", models.CharField(blank=True, default="", max_length=100)),
+                ("content", models.FileField(upload_to="lightfile/shared/")),
+                ("posted_by", models.CharField(max_length=100)),
+                (
+                    "expire_at",
+                    models.DateTimeField(
+                        blank=True, default=lightfileshare.models.expire_time_maker
+                    ),
+                ),
             ],
         ),
     ]

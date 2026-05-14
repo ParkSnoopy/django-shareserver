@@ -5,35 +5,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('lightfileshare', '0001_initial'),
+        ("lightfileshare", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='secretfile',
-            name='expire_at',
+            model_name="secretfile",
+            name="expire_at",
             field=models.DateTimeField(default=lightfileshare.models.expire_time_maker),
         ),
         migrations.AlterField(
-            model_name='secretfile',
-            name='password',
+            model_name="secretfile",
+            name="password",
             field=models.CharField(max_length=1024, null=True),
         ),
         migrations.AlterField(
-            model_name='secretfile',
-            name='posted_by',
+            model_name="secretfile",
+            name="posted_by",
             field=models.CharField(max_length=128),
         ),
         migrations.AlterField(
-            model_name='secretfile',
-            name='private_level',
+            model_name="secretfile",
+            name="private_level",
             field=models.IntegerField(default=0),
         ),
         migrations.AlterField(
-            model_name='secretfile',
-            name='title',
+            model_name="secretfile",
+            name="title",
             field=models.CharField(max_length=128),
         ),
     ]

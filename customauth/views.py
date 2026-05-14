@@ -11,55 +11,82 @@ from .models import CustomUser
 
 def customauth_register(request):
     if request.method == "POST":
-        username  = request.POST.get('username')
-        password1 = request.POST.get('password1')
-        password2 = request.POST.get('password2')
+        username = request.POST.get("username")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
         if password1 != password2:
-            return render(request, 'customauth/register.html', {
-                'fail_reason': "Passwords are not equal",
-            })
+            return render(
+                request,
+                "customauth/register.html",
+                {
+                    "fail_reason": "Passwords are not equal",
+                },
+            )
 
         valid_or_reason = validate_password(password1)
         if valid_or_reason == True:
             try:
                 user_with_this_username = CustomUser.objects.get(username=username)
-                return render(request, 'customauth/register.html', {
-                    'fail_reason': "Username already occupied",
-                })
+                return render(
+                    request,
+                    "customauth/register.html",
+                    {
+                        "fail_reason": "Username already occupied",
+                    },
+                )
 
             except CustomUser.DoesNotExist:
                 user = CustomUser.objects.create_user(
                     username=username,
                     password=password1,
                 )
-                return redirect('/?info=Please contact site admin to activate your account')
+                return redirect(
+                    "/?info=Please contact site admin to activate your account"
+                )
 
-        return render(request, 'customauth/register.html', {
-            'fail_reason': valid_or_reason,
-        })
-    return render(request, 'customauth/register.html', {
-        'fail_reason': False,
-    })
+        return render(
+            request,
+            "customauth/register.html",
+            {
+                "fail_reason": valid_or_reason,
+            },
+        )
+    return render(
+        request,
+        "customauth/register.html",
+        {
+            "fail_reason": False,
+        },
+    )
+
 
 def customauth_login(request):
-    if request.method == 'POST':
-
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
         user = authenticate(username=username, password=password)
 
         if user:
             login(request, user)
-            return redirect('/')
+            return redirect("/")
 
-        return render(request, 'customauth/login.html', {
-            'fail_reason': "Login Credential Not Exists",
-        })
-    return render(request, 'customauth/login.html', {
-        'fail_reason': None,
-    })
+        return render(
+            request,
+            "customauth/login.html",
+            {
+                "fail_reason": "Login Credential Not Exists",
+            },
+        )
+    return render(
+        request,
+        "customauth/login.html",
+        {
+            "fail_reason": None,
+        },
+    )
+
 
 def customauth_logout(request):
     logout(request)

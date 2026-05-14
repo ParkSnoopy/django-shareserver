@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 from localutils.private_level import PrivateLevel
 
@@ -15,7 +13,7 @@ class CustomUserManager(BaseUserManager):
         birth and password.
         """
         if not username:
-            raise ValueError('Users must have an username')
+            raise ValueError("Users must have an username")
 
         user = self.model(
             username=username,
@@ -45,14 +43,16 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
-    private_level = models.IntegerField(blank=True, null=False, default=PrivateLevel.User)
+    private_level = models.IntegerField(
+        blank=True, null=False, default=PrivateLevel.User
+    )
 
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
 
     def get_full_name(self):

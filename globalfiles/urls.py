@@ -9,10 +9,9 @@ from .views import (
 )
 
 urlpatterns = [
-    path('static/<str:appname>/<str:filetype>/<str:filename>', static),
-    path('lightfileshared/<str:filename>', media_by_file_permission),
-
-    path('media/lightfile/shared/<str:filename>', media_for_admin),
+    path("static/<str:appname>/<str:filetype>/<str:filename>", static),
+    path("lightfileshared/<str:filename>", media_by_file_permission),
+    path("media/lightfile/shared/<str:filename>", media_for_admin),
 ]
 
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
