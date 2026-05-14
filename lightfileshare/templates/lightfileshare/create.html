@@ -89,8 +89,8 @@
           url:'/create/',
           data: formData,
           dataType: 'json',
-          beforeSend: () => {},
-          xhr: () => {
+          beforeSend: function() {},
+          xhr: function() {
               const xhr = new window.XMLHttpRequest();
               xhr.upload.addEventListener('progress', e => {
                   if(e.lengthComputable){
@@ -101,10 +101,10 @@
               });
               return xhr
           },
-          success: (response)=> {
+          success: function(response){
               window.location.href = "/"
           },
-          error: (err)=> {
+          error: function(err){
               try {
                   const response = JSON.parse(err.responseText);
                   if (response.message) {
