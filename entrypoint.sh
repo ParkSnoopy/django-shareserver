@@ -22,6 +22,13 @@ cd $PROJECT_ROOT
   DJANGO_SUPERUSER_PASSWORD=adminpassword \
 /usr/local/bin/uv run -- python manage.py createsuperuser --noinput
 
+# Print 
+echo 
+echo "========== Project Version =========="
+cat $PROJECT_ROOT/pyproject.toml | grep -I "^version = "
+echo "========== =============== =========="
+echo
+
 # Run with `granian`
 /usr/local/bin/uv run -- granian \
   --interface wsgi \
