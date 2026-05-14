@@ -71,6 +71,32 @@ class FileDownloadFlowTestCase(TestCase):
         self.assertNotContains(response, "?disposition=open")
         self.assertNotContains(response, "?disposition=download")
 
+    def test_file_permission_handlers_share_database_container(self):
+        # original FPH: context is not shared across inter-process
+        class InMemoryFilePermissionHandler(FilePermissionHandler):
+            def __init__(self, permission_lifetime_in_minute=5):
+                self.container = dict()
+                self.permission_lifetime_in_minute = permission_lifetime_in_minute
+
+        writer = InMemoryFilePermissionHandler()
+        reader = InMemoryFilePermissionHandler()
+
+        writer.set_permission("shared-session", self.passworded_file.filename)
+
+        self.assertFalse(
+            reader.check_permission("shared-session", self.passworded_file.filename)
+        )
+
+        # current FPH: context is shared across inter-process via database
+        writer = FilePermissionHandler()
+        reader = FilePermissionHandler()
+
+        writer.set_permission("shared-session", self.passworded_file.filename)
+
+        self.assertTrue(
+            reader.check_permission("shared-session", self.passworded_file.filename)
+        )
+
     def test_homepage_links_files_directly_to_download_page(self):
         response = self.client.get("/")
 

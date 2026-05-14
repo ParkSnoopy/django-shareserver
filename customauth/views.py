@@ -25,7 +25,7 @@ def customauth_register(request):
             )
 
         valid_or_reason = validate_password(password1)
-        if valid_or_reason == True:
+        if valid_or_reason:
             try:
                 user_with_this_username = CustomUser.objects.get(username=username)
                 return render(

@@ -1,6 +1,26 @@
 from datetime import datetime, timedelta, timezone
 
 
+class FilePermissionContainer:
+    app_label = "lightfileshare"
+    model_name = "FilePermission"
+
+    @property
+    def model(self):
+        from django.apps import apps
+
+        return apps.get_model(self.app_label, self.model_name)
+
+    def get(self, session_id, default=None):
+        container = self.model.objects.get_container(session_id)
+        if container:
+            return container
+        return default if default is not None else set()
+
+    def __setitem__(self, session_id, container):
+        self.model.objects.set_container(session_id, container)
+
+
 class FilePermissionHandler:
     def __init__(self, permission_lifetime_in_minute=5):
         """
@@ -9,7 +29,7 @@ class FilePermissionHandler:
 
         Dict[ session_id: Set{} ]
         """
-        self.container = dict()
+        self.container = FilePermissionContainer()
         self.permission_lifetime_in_minute = permission_lifetime_in_minute
 
     # Getter/Setter for Container
