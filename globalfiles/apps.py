@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class GlobalfilesConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'globalfiles'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "globalfiles"

@@ -16,6 +16,28 @@
                 <span>By: {{ posted_by }}</span>
             </p>
             <hr>
+
+            {% if error and error != status.Init %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ error }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+
+            {% if needs_password %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Enter password to access this file" autofocus>
+                </div>
+                <button type="submit" class="btn btn-info btn-lg btn-block mt-3">
+                    <i class="fas fa-lock mr-2"></i> Unlock
+                </button>
+            </form>
+            {% elif has_permission %}
             <p class="card-text text-muted small">
                 Choose how to access this file.
             </p>
@@ -27,6 +49,7 @@
                     <i class="fas fa-download mr-2"></i> Download
                 </a>
             </div>
+            {% endif %}
         </div>
         <div class="card-footer text-muted small">
             <a href="/" class="text-secondary"><i class="fas fa-arrow-left mr-1"></i> Back to list</a>

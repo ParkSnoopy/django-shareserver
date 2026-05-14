@@ -1,5 +1,3 @@
-
-
 class PrivateLevel:
     Public = 0
     User = 1

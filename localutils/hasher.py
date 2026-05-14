@@ -4,15 +4,15 @@ from hashlib import sha512
 from secrets import token_hex
 
 
-
 def custom_hasher(password, salt=None, _batch=1000) -> [str, 146]:
     if not salt:
         salt = token_hex(settings.SALT_BYTE)
-    password = f"{salt}{password}".encode('utf-8')
+    password = f"{salt}{password}".encode("utf-8")
     for _ in range(_batch):
-        password = sha512(password).hexdigest().encode('utf-8')
-    password = password.decode('utf-8')
+        password = sha512(password).hexdigest().encode("utf-8")
+    password = password.decode("utf-8")
     return f"{salt}{settings.SALT_SEP}{password}"
+
 
 def check_password(password, target_str) -> bool:
     salt, _ = target_str.split(settings.SALT_SEP)
