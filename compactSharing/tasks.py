@@ -6,6 +6,7 @@ from celery import shared_task
 from lightfileshare.models import SecretFile
 
 import django
+
 django.setup()
 
 

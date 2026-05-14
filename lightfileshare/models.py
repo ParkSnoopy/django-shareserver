@@ -8,6 +8,8 @@ from localutils.private_level import PrivateLevel
 
 # Create your models here.
 
+## ========================= User Permission for File =========================
+
 
 def expire_time_maker(lifetime_in_hour=settings.MY_DEFAULT_FILE_LIFETIME_IN_HOUR):
     # If `<project>.settings.py` have set `TIME_ZONE` and `USE_TZ`,
@@ -81,3 +83,63 @@ class SecretFile(models.Model):
     @property
     def filename(self):
         return self.filepath.name
+
+
+## ==================================================
+
+## ========================= Session Permission for File =========================
+
+
+class FilePermissionManager(models.Manager):
+    def normalize_session_id(self, session_id):
+        return str(session_id or "")
+
+    def remove_expired(self, session_id=None):
+        permissions = self.filter(expires_at__lte=datetime.now(timezone.utc))
+        if session_id is not None:
+            permissions = permissions.filter(
+                session_id=self.normalize_session_id(session_id)
+            )
+        permissions.delete()
+
+    def get_container(self, session_id):
+        session_id = self.normalize_session_id(session_id)
+        self.remove_expired(session_id)
+        return set(
+            self.filter(session_id=session_id).values_list("filename", "expires_at")
+        )
+
+    def set_container(self, session_id, container):
+        session_id = self.normalize_session_id(session_id)
+        self.remove_expired(session_id)
+
+        permissions = {}
+        for filename, expires_at in container:
+            if filename not in permissions or expires_at > permissions[filename]:
+                permissions[filename] = expires_at
+
+        for filename, expires_at in permissions.items():
+            self.update_or_create(
+                session_id=session_id,
+                filename=filename,
+                defaults={"expires_at": expires_at},
+            )
+
+
+class FilePermission(models.Model):
+    session_id = models.CharField(blank=True, default="", max_length=64)
+    filename = models.CharField(max_length=255)
+    expires_at = models.DateTimeField(blank=False, null=False)
+
+    objects = FilePermissionManager()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=("session_id", "filename"),
+                name="unique_session_file_permission",
+            )
+        ]
+
+
+## ==================================================
