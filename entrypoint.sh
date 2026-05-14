@@ -33,7 +33,7 @@ echo
 /usr/local/bin/uv run -- granian \
   --interface wsgi \
   --process-name django-shareserver \
-  --workers 1 \
+  --workers 4 \
   --blocking-threads 4 \
   --host 0.0.0.0 \
   --port 8000\
